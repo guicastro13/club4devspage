@@ -1,46 +1,101 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap');
 @import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-html, body, #root {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  box-sizing: border-box;
+@keyframes pulse-light {
+  0% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.7; }
 }
 
-body {
-  font-family: 'Inter', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.background-effect-circle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none; 
 }
 
-@keyframes pulse-custom {
-  0%, 80%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  40% {
-    opacity: 1;
-    transform: scale(1.4);
-  }
-}
-
-.animate-pulse-delay-0 {
-  animation: pulse-custom 1.3s infinite ease-in-out;
+.background-effect-circle:nth-child(1) {
+  width: 250px;
+  height: 250px;
+  top: 10%;
+  left: 5%;
+  background: radial-gradient(circle, rgba(74,222,128,0.2) 0%, rgba(74,222,128,0) 70%);
+  animation: pulse-light 10s infinite ease-in-out alternate;
   animation-delay: 0s;
 }
 
-.animate-pulse-delay-200 {
-  animation: pulse-custom 1.3s infinite ease-in-out;
-  animation-delay: 0.2s;
+.background-effect-circle:nth-child(2) {
+  width: 350px;
+  height: 350px;
+  bottom: 15%;
+  right: 10%;
+  background: radial-gradient(circle, rgba(168,85,247,0.2) 0%, rgba(168,85,247,0) 70%);
+  animation: pulse-light 12s infinite ease-in-out alternate;
+  animation-delay: 2s;
 }
 
-.animate-pulse-delay-400 {
-  animation: pulse-custom 1.3s infinite ease-in-out;
-  animation-delay: 0.4s;
+.background-effect-circle:nth-child(3) {
+  width: 200px;
+  height: 200px;
+  top: 30%;
+  right: 25%;
+  background: radial-gradient(circle, rgba(236,72,153,0.2) 0%, rgba(236,72,153,0) 70%);
+  animation: pulse-light 11s infinite ease-in-out alternate;
+  animation-delay: 4s;
+}
+
+.background-effect-circle:nth-child(4) {
+  width: 400px;
+  height: 400px;
+  bottom: 5%;
+  left: 20%;
+  background: radial-gradient(circle, rgba(74,222,128,0.15) 0%, rgba(74,222,128,0) 70%);
+  animation: pulse-light 13s infinite ease-in-out alternate;
+  animation-delay: 6s;
+}
+
+
+@keyframes slide-in-top {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in-top {
+  animation: slide-in-top 1s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 1s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 1.5s infinite ease-in-out;
 }
