@@ -99,3 +99,13 @@
 .animate-pulse-dot {
   animation: pulse-dot 1.5s infinite ease-in-out;
 }
+
+.feature-card {
+  @apply bg-gray-800/40 border border-gray-700/50 p-8 rounded-xl text-center flex flex-col items-center transition-all duration-300;
+  @apply hover:bg-gray-800/80 hover:border-gray-600 hover:-translate-y-2;
+}
+
+.animate-fade-in-up {
+  opacity: 0;
+  animation: fade-in-up 1s ease-out forwards;
+}
