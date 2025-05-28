@@ -10,7 +10,7 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!email || !email.includes('@')) {
       setStatus('error');
       setMessage('Por favor, insira um e-mail válido.');
@@ -29,19 +29,19 @@ function App() {
         body: JSON.stringify({ email: email }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        // Se a resposta não for OK (ex: 400, 500)
         setStatus('error');
-        setMessage(data.message || 'Ocorreu um erro. Tente novamente.');
+        setMessage(data.message || 'Ocorreu um erro ao processar sua solicitação.');
       } else {
-        // Se a resposta for OK (ex: 200, 201)
         setStatus('success');
         setMessage(data.message);
       }
     } catch (error) {
       console.error('Fetch error:', error);
       setStatus('error');
-      setMessage('Não foi possível conectar ao servidor. Verifique sua conexão.');
+      setMessage('Não foi possível comunicar com o servidor. Tente novamente mais tarde.');
     }
   };
   return (
