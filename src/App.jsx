@@ -20,13 +20,28 @@ function App() {
     setStatus('loading');
     setMessage('');
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    if (email.includes('fail')) { 
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: email }),
+      });
+
+      if (!response.ok) {
+        // Se a resposta não for OK (ex: 400, 500)
+        setStatus('error');
+        setMessage(data.message || 'Ocorreu um erro. Tente novamente.');
+      } else {
+        // Se a resposta for OK (ex: 200, 201)
+        setStatus('success');
+        setMessage(data.message);
+      }
+    } catch (error) {
+      console.error('Fetch error:', error);
       setStatus('error');
-      setMessage('Este e-mail não pôde ser registrado. Tente outro.');
-    } else {
-      setStatus('success');
-      setMessage('Obrigado! Você está na lista de espera e será notificado no lançamento.');
+      setMessage('Não foi possível conectar ao servidor. Verifique sua conexão.');
     }
   };
   return (
