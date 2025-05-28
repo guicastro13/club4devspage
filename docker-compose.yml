@@ -1,8 +1,36 @@
 services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: club4devs_backend
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: db
+      POSTGRES_DB: ${POSTGRES_DB}
+      PORT: 3001
+    depends_on:
+      - db
+    networks:
+      - app-network
+  db:
+    image: postgres:15-alpine
+    container_name: club4devs_db
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
   nginx:
     container_name: club4devs_nginx
     build:
-      context: . 
+      context: .
       dockerfile: Dockerfile
     ports:
       - "80:80"
@@ -12,8 +40,10 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     depends_on:
-      - certbot
+      - backend
     restart: always
+    networks:
+      - app-network
 
   certbot:
     container_name: club4devs_certbot
@@ -28,5 +58,10 @@ services:
       - WWW_DOMAIN=${WWW_DOMAIN}
 
 volumes:
+  postgres_data:
   certbot_conf:
   certbot_www:
+
+networks:
+  app-network:
+    driver: bridge
