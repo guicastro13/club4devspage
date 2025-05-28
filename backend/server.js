@@ -6,7 +6,12 @@ const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(cors()); 
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] Recebida requisição: ${req.method} ${req.originalUrl}`);
+  next();
+});
+
+app.use(cors());
 app.use(express.json());
 
 const pool = new Pool({
@@ -15,6 +20,8 @@ const pool = new Pool({
   database: process.env.POSTGRES_DB,
   password: process.env.POSTGRES_PASSWORD,
   port: 5432,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
 });
 
 const initializeDb = async () => {
@@ -61,7 +68,6 @@ app.post('/api/subscribe', async (req, res) => {
 
 app.get('/api/subscribers', async (req, res) => {
     try {
-      console.log('Buscando lista de e-mails para teste...');
       const { rows } = await pool.query('SELECT id, email, created_at FROM emails ORDER BY created_at DESC');
       res.status(200).json(rows);
     } catch (error) {
