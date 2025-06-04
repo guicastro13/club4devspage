@@ -1,36 +1,28 @@
 import './index.css';
-import { useState } from 'react'; 
+import { useState } from 'react';
 import { Mail, Code, Users, Award, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
 function App() {
-
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('idle');
-  const [message, setMessage] = useState(''); 
+  const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!email || !email.includes('@')) {
       setStatus('error');
       setMessage('Por favor, insira um e-mail válido.');
       return;
     }
-
     setStatus('loading');
     setMessage('');
-
     try {
       const response = await fetch('/api/subscribe', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email }),
       });
-
       const data = await response.json();
-
       if (!response.ok) {
         setStatus('error');
         setMessage(data.message || 'Ocorreu um erro ao processar sua solicitação.');
@@ -44,32 +36,36 @@ function App() {
       setMessage('Não foi possível comunicar com o servidor. Tente novamente mais tarde.');
     }
   };
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 to-indigo-950 text-gray-100 relative overflow-x-hidden">
-      
       <div className="background-effect-circle"></div>
       <div className="background-effect-circle"></div>
       <div className="background-effect-circle"></div>
       <div className="background-effect-circle"></div>
 
       <main role="main" aria-label="Landing page de lançamento Club4Devs" className="z-10 flex flex-col items-center justify-center text-center p-4 min-h-screen">
-        <h1 className="font-['Montserrat'] font-extrabold text-7xl md:text-8xl lg:text-9xl bg-gradient-to-r from-teal-400 via-purple-500 to-pink-500 text-transparent bg-clip-text mb-4 tracking-widest select-none drop-shadow-xl animate-slide-in-top">
-          Club4Devs
+        
+        {/* Título principal ajustado para cor sólida (ex: branco ou cinza claro) */}
+        <h1 className="font-['Montserrat'] font-extrabold text-7xl md:text-8xl lg:text-9xl text-gray-200 mb-4 tracking-widest select-none drop-shadow-xl animate-slide-in-top">
+          {/* Usando text-gray-200 como exemplo de cor clara. Você pode usar text-white também. */}
+          Club<span className="text-specific-blue">4</span>Devs
         </h1>
-        <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed max-w-3xl px-4 animate-fade-in-up">
+
+        <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed max-w-3xl px-4 animate-fade-in-up" style={{ animationDelay: '0.5s' }}> 
           A sua nova plataforma de cursos de programação está quase pronta. <br className="hidden sm:block"/> Aprenda com projetos reais e eleve sua carreira.
         </p>
-        
-        <div className="w-full max-w-lg mt-4 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
+
+        <div className="w-full max-w-lg mt-4 animate-fade-in-up" style={{ animationDelay: '0.8s' }}> 
           {status !== 'success' ? (
             <form onSubmit={handleSubmit}>
               <label htmlFor="email-input" className="sr-only">Seu melhor e-mail</label>
               <div className="flex flex-col sm:flex-row gap-3">
                 <div className="relative flex-grow">
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-                  <input 
+                  <input
                     id="email-input"
-                    type="email" 
+                    type="email"
                     placeholder="Seu melhor e-mail"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -77,8 +73,8 @@ function App() {
                     disabled={status === 'loading'}
                   />
                 </div>
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="h-14 px-8 rounded-lg bg-teal-500 text-white font-semibold hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
                   disabled={status === 'loading'}
                 >
@@ -124,8 +120,13 @@ function App() {
         </div>
       </section>
 
-      <footer className="w-full text-center p-6 text-gray-500 font-mono select-none z-10 bg-gray-900">
-        © 2025 Club4Devs - Todos os direitos reservados
+      <footer className="w-full text-center p-6 text-gray-500 font-mono select-none z-10 bg-gray-900 flex flex-col items-center gap-2">
+        <img
+            src="/images/versao_horizontal_dark.png" 
+            alt="Club4Devs Mini Logo"
+            className="h-8 mb-2"
+        />
+        <p>© 2025 Club4Devs - Todos os direitos reservados</p>
       </footer>
     </div>
   );
