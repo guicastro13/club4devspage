@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { HealthController } from './healthcheck.controller';
-import { ScheduleModule } from '@nestjs/schedule';
 import { HealthCheckCronService } from './healthcheck.service';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
+  imports: [HttpModule],
   controllers: [HealthController],
   providers: [HealthCheckCronService],
 })
