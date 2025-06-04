@@ -80,7 +80,7 @@
 }
 
 .animate-fade-in-up {
-  opacity: 0;
+  opacity: 0; 
   animation: fade-in-up 1s ease-out forwards;
 }
 
@@ -106,50 +106,4 @@
 
 .text-specific-blue {
   color: #38BDF8; 
-  -webkit-text-fill-color: initial;
-  text-fill-color: initial;
-
-  background: none; 
-}
-
-
-
-@keyframes slide-in-top {
-  0% {
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fade-in-up {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-slide-in-top {
-  animation: slide-in-top 1s ease-out forwards;
-}
-
-.animate-fade-in-up {
-  opacity: 0;
-  animation: fade-in-up 1s ease-out forwards;
-}
-
-.feature-card {
-  @apply bg-gray-800/40 border border-gray-700/50 p-8 rounded-xl text-center flex flex-col items-center transition-all duration-300;
-  @apply hover:bg-gray-800/80 hover:border-gray-600 hover:-translate-y-2;
-}
-
-.text-specific-blue {
-  color: #38BDF8;
 }
