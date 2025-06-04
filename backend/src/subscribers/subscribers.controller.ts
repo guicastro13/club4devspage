@@ -7,8 +7,8 @@ import {
   HttpStatus,
   HttpException,
   Logger,
-} from '@nestjs/common'; // Adicione Logger
-import { Response } from 'express'; // Importe Response do Express
+} from '@nestjs/common';
+import { Response } from 'express';
 import { SubscribersService } from './subscribers.service';
 import { SubscribeDto } from './dto/subscribe.dto';
 
