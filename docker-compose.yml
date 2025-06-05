@@ -81,7 +81,7 @@ services:
       RAILS_ENV: production
       REDIS_URL: redis://chatwoot-redis:6379/0
       FRONTEND_URL: https://chat.club4devs.com.br
-      SECRET_KEY_BASE: SUA_SECRET_KEY_BASE_GERADA
+      SECRET_KEY_BASE: zTfqF5bkCbM26tf9v9ycIPWVIA1QrWUQiXMT7op8j9XnuRtiuTpZlT7DBqakJWAD
     #env_file: .env.chatwoot # Carrega as variáveis do arquivo .env.chatwoot
     depends_on:
       - db
@@ -104,7 +104,7 @@ services:
       RAILS_ENV: production
       REDIS_URL: redis://chatwoot-redis:6379/0
       FRONTEND_URL: https://chat.club4devs.com.br
-      SECRET_KEY_BASE: SUA_SECRET_KEY_BASE_GERADA
+      SECRET_KEY_BASE: zTfqF5bkCbM26tf9v9ycIPWVIA1QrWUQiXMT7op8j9XnuRtiuTpZlT7DBqakJWAD
     depends_on:
       - db
       - chatwoot-redis
