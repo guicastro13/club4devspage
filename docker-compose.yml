@@ -77,7 +77,7 @@ services:
       POSTGRES_HOST: db
       POSTGRES_DATABASE: chatwoot_production # Nome sugerido para o banco de dados do Chatwoot
       POSTGRES_USER: chatwoot_user # Nome sugerido para o usuário do Chatwoot
-      POSTGRES_PASSWORD: SENHA_SEGURA_PARA_CHATWOOT_USER # Defina uma senha forte
+      POSTGRES_PASSWORD: SenhaTemporaria2025 # Defina uma senha forte
       RAILS_ENV: production
       REDIS_URL: redis://chatwoot-redis:6379/0
       FRONTEND_URL: https://chat.club4devs.com.br
@@ -100,7 +100,7 @@ services:
       POSTGRES_HOST: db
       POSTGRES_DATABASE: chatwoot_production # Nome sugerido para o banco de dados do Chatwoot
       POSTGRES_USER: chatwoot_user # Nome sugerido para o usuário do Chatwoot
-      POSTGRES_PASSWORD: SENHA_SEGURA_PARA_CHATWOOT_USER # Defina uma senha forte
+      POSTGRES_PASSWORD: SenhaTemporaria2025 # Defina uma senha forte
       RAILS_ENV: production
       REDIS_URL: redis://chatwoot-redis:6379/0
       FRONTEND_URL: https://chat.club4devs.com.br
