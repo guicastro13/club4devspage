@@ -73,7 +73,16 @@ services:
     image: chatwoot/chatwoot:latest # Ou uma tag específica, ex: v3.5.0
     container_name: chatwoot_web
     restart: always
-    env_file: .env.chatwoot # Carrega as variáveis do arquivo .env.chatwoot
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_DATABASE: chatwoot_production # Nome sugerido para o banco de dados do Chatwoot
+      POSTGRES_USER: chatwoot_user # Nome sugerido para o usuário do Chatwoot
+      POSTGRES_PASSWORD: SENHA_SEGURA_PARA_CHATWOOT_USER # Defina uma senha forte
+      RAILS_ENV: production
+      REDIS_URL: redis://chatwoot-redis:6379/0
+      FRONTEND_URL: https://chat.club4devs.com.br
+      SECRET_KEY_BASE: SUA_SECRET_KEY_BASE_GERADA
+    #env_file: .env.chatwoot # Carrega as variáveis do arquivo .env.chatwoot
     depends_on:
       - db
       - chatwoot-redis
@@ -87,7 +96,15 @@ services:
     image: chatwoot/chatwoot:latest # Use a MESMA tag que o chatwoot-web
     container_name: chatwoot_worker
     restart: always
-    env_file: .env.chatwoot
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_DATABASE: chatwoot_production # Nome sugerido para o banco de dados do Chatwoot
+      POSTGRES_USER: chatwoot_user # Nome sugerido para o usuário do Chatwoot
+      POSTGRES_PASSWORD: SENHA_SEGURA_PARA_CHATWOOT_USER # Defina uma senha forte
+      RAILS_ENV: production
+      REDIS_URL: redis://chatwoot-redis:6379/0
+      FRONTEND_URL: https://chat.club4devs.com.br
+      SECRET_KEY_BASE: SUA_SECRET_KEY_BASE_GERADA
     depends_on:
       - db
       - chatwoot-redis
