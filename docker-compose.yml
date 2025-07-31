@@ -12,9 +12,6 @@ services:
       - ./chatwoot.nginx.conf:/etc/nginx/conf.d/chatwoot.conf
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
-    depends_on:
-      - backend
-      - chatwoot-web
     restart: always
     networks:
       - app-network
@@ -33,20 +30,6 @@ services:
     image: chatwoot/chatwoot:latest # Ou uma tag específica, ex: v3.5.0
     container_name: chatwoot_web
     restart: always
-    environment:
-      POSTGRES_HOST: db
-      POSTGRES_DATABASE: chatwoot_production # Nome sugerido para o banco de dados do Chatwoot
-      POSTGRES_USER: chatwoot_user # Nome sugerido para o usuário do Chatwoot
-      POSTGRES_PASSWORD: SenhaTemporaria2025 # Defina uma senha forte
-      RAILS_ENV: production
-      REDIS_URL: redis://chatwoot-redis:6379/0
-      FRONTEND_URL: https://chat.club4devs.com.br
-      SECRET_KEY_BASE: zTfqF5bkCbM26tf9v9ycIPWVIA1QrWUQiXMT7op8j9XnuRtiuTpZlT7DBqakJWAD
-    #env_file: .env.chatwoot # Carrega as variáveis do arquivo .env.chatwoot
-    depends_on:
-      - db
-      - chatwoot-redis
-    #  - "127.0.0.1:3000:3000" # Somente se precisar de acesso local direto para debug
     volumes:
       - chatwoot_data:/app/storage # Para armazenamento local de anexos, se ACTIVE_STORAGE_SERVICE=local
     networks:
