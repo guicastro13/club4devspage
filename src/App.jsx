@@ -1,10 +1,13 @@
 import './index.css';
-import { useState } from 'react';
-// Ícones adicionados: Bot, Puzzle, Users2, Zap, Network, ShieldCheck, TerminalSquare, Rocket, MessageSquare
-import { Mail, Code, Users, Award, AlertTriangle, CheckCircle2, Menu, X, Bot, Puzzle, Users2, Zap, Network, ShieldCheck, TerminalSquare, Rocket, MessageSquare, ExternalLink } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Mail, Code, AlertTriangle, CheckCircle2, Menu, X, Bot, Users2, Zap, Network, ShieldCheck, TerminalSquare, Rocket, MessageSquare } from 'lucide-react';
+import Gologo from './components/techs/Go';
+import CsharpLogo from './components/techs/Csharp';
+import PsqlLogo from './components/techs/PSql';
+import NestLogo from './components/techs/Nest';
+import PricingSection from './components/ItensVenda/itens';
 
-// Componente Header (Modificado para incluir novos links)
-function Header() {
+function Header({ className, ...props }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const scrollToSection = (sectionId) => {
@@ -19,15 +22,18 @@ function Header() {
     { id: 'courses', label: 'Cursos' },
     { id: 'community', label: 'Comunidade' },
     { id: 'why-club4devs', label: 'Diferenciais' },
+    { id: 'pricing', label: 'Planos' },
     { id: 'subscribe-form', label: 'Inscrever-se' },
   ];
 
   return (
-    <header className="bg-gray-900/50 backdrop-blur-lg p-4 fixed top-0 left-0 right-0 z-50 shadow-lg">
+    <header className={`bg-gray-900/50 backdrop-blur-lg p-4 fixed top-0 left-0 right-0 z-50 shadow-lg ${className}`}
+      {...props}
+    >
       <div className="container mx-auto flex justify-between items-center max-w-7xl px-4">
         <a href="/" aria-label="Club4Devs Home">
           <img 
-            src="/images/versao_horizontal_dark.png"
+            src="/images/versao_horizontal_dark.png" {...props}
             alt="Club4Devs Logo" 
             className="h-8 md:h-9"
           />
@@ -70,60 +76,75 @@ function Header() {
 
 
 function App() {
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState('idle');
-  const [message, setMessage] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [status, setStatus] = useState('idle');
+  // const [message, setMessage] = useState('');
+  const [isHeaderVisible, setIsHeaderVisible] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!email || !email.includes('@')) {
-      setStatus('error');
-      setMessage('Por favor, insira um e-mail válido.');
-      return;
-    }
-    setStatus('loading');
-    setMessage('');
-    try {
-      const response = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email }),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        setStatus('error');
-        setMessage(data.message || 'Ocorreu um erro ao processar sua solicitação.');
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 80) {
+        setIsHeaderVisible(true);
       } else {
-        setStatus('success');
-        setMessage(data.message);
+        setIsHeaderVisible(false);
       }
-    } catch (error) {
-      console.error('Fetch error:', error);
-      setStatus('error');
-      setMessage('Não foi possível comunicar com o servidor. Tente novamente mais tarde.');
-    }
-  };
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!email || !email.includes('@')) {
+  //     setStatus('error');
+  //     setMessage('Por favor, insira um e-mail válido.');
+  //     return;
+  //   }
+  //   setStatus('loading');
+  //   setMessage('');
+  //   try {
+  //     const response = await fetch('/api/subscribe', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ email: email }),
+  //     });
+  //     const data = await response.json();
+  //     if (!response.ok) {
+  //       setStatus('error');
+  //       setMessage(data.message || 'Ocorreu um erro ao processar sua solicitação.');
+  //     } else {
+  //       setStatus('success');
+  //       setMessage(data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error('Fetch error:', error);
+  //     setStatus('error');
+  //     setMessage('Não foi possível comunicar com o servidor. Tente novamente mais tarde.');
+  //   }
+  // };
   
   const courseCategories = [
     {
       icon: <Zap size={36} className="text-yellow-400" />,
       title: "Linguagens de Programação",
-      description: "Domine Go (nosso lançamento!), C#, TypeScript, SQL e prepare-se para mais novidades.",
+      description: "Golang, C#, TypeScript, SQL entre outros. Estamos sempre observando o mercado e trabalhando com as ferramentas mais requisitadas nas vagas de emprego.",
     },
     {
       icon: <TerminalSquare size={36} className="text-green-400" />,
       title: "Ferramentas Essenciais",
-      description: "Aprenda Git, Docker, e as ferramentas que aceleram o desenvolvimento no dia a dia.",
+      description: "Aprenda Git, Docker, Copilot, RabbitMQ, Postgres, entre outras ferramentas que fazem parte do dia a dia do desenvolvedor.",
     },
     {
       icon: <Network size={36} className="text-blue-400" />,
       title: "Fundamentos e Protocolos",
-      description: "Entenda HTTP, arquiteturas de software, e os pilares da computação moderna.",
+      description: "Entenda HTTP, arquiteturas de software, e os pilares da computação moderna (Como filas e sistemas distribuidos).",
     },
     {
       icon: <Rocket size={36} className="text-red-400" />,
       title: "Desenvolvimento de Carreira",
-      description: "Dicas, preparação para entrevistas e estratégias para alavancar sua carreira tech.",
+      description: "Dicas, preparação para entrevistas e estratégias para alavancar sua carreira, workshopes com simulados de entrevistas e muito mais.",
     },
   ];
 
@@ -131,52 +152,72 @@ function App() {
     {
       icon: <Code size={40} className="text-teal-400 mb-4" />,
       title: "Projetos Práticos e Reais",
-      description: "Aprenda construindo aplicações completas, do zero ao deploy, simulando o mercado.",
+      description: "Aprenda construindo aplicações completas, do zero ao deploy, simulando o mercado, com praticas do dia-a-dia, como fazer modelagens de entregaveis, definindo escopo do projeto e aplicando conhecimento aprendido nas aulas.",
     },
     {
       icon: <ShieldCheck size={40} className="text-purple-500 mb-4" />,
       title: "Currículo Abrangente",
-      description: "Conteúdo sempre atualizado com as melhores práticas e tecnologias demandadas.",
+      description: "Conteúdo sempre atualizado com as melhores práticas e tecnologias demandadas. Esteja sempre atualizado com o mercado.",
     },
     {
       icon: <Users2 size={40} className="text-pink-500 mb-4" />,
       title: "Comunidade e Suporte",
-      description: "Networking, suporte contínuo e uma comunidade para você nunca estudar sozinho.",
+      description: "Networking, suporte contínuo e uma comunidade para você nunca estudar sozinho. Tire duvidas com professores, encontros ao vivo para discutir temas e muito mais.",
     },
   ];
 
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 to-indigo-950 text-gray-100 relative overflow-x-hidden pt-16 md:pt-20">
-      <Header />
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 to-indigo-950 text-gray-100 relative overflow-x-hidden">
+      <Header className={`transition-transform duration-300 ease-in-out ${isHeaderVisible ? 'translate-y-0' : '-translate-y-full'}`}/>
 
       <div className="background-effect-circle"></div>
       <div className="background-effect-circle"></div>
       <div className="background-effect-circle"></div>
       <div className="background-effect-circle"></div>
 
-      <main role="main" aria-label="Landing page de lançamento Club4Devs" className="z-10 flex flex-col items-center justify-center text-center p-4 flex-grow mt-8 md:mt-0"> 
-        <h1 className="font-['Montserrat'] font-extrabold text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-gray-100 mb-6 tracking-tight select-none drop-shadow-xl animate-slide-in-top"> 
-          Club<span className="text-specific-blue">4</span>Devs
-        </h1>
-        <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-10 leading-relaxed max-w-3xl px-4 animate-fade-in-up" style={{ animationDelay: '0.3s' }}> 
-          Sua jornada para se tornar um dev de destaque começa aqui. <br className="hidden sm:block"/> Explore nosso ecossistema completo de cursos, projetos práticos e uma comunidade vibrante.
-        </p>
-        <div className="animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-          <button 
-            onClick={() => { const form = document.getElementById('subscribe-form'); if (form) form.scrollIntoView({ behavior: 'smooth' }); }}
-            className="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
-          >
-            Entrar na Lista de Espera
-          </button>
-        </div>
+      <main className="flex-grow bg-gray-900 flex flex-col overflow-y-auto pt-16 md:pt-20">
+  
+  {/* Wrapper do Conteúdo Principal (cresce para empurrar os ícones para baixo) */}
+  <div className="flex-grow flex flex-col items-center justify-center text-center pt-23 p-4 z-10">
+    
+    <h1 className="font-['Montserrat'] font-extrabold text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-gray-100 mb-20 tracking-tight select-none drop-shadow-xl animate-slide-in-top">
+      Club<span className="text-specific-blue">4</span>Devs
+    </h1>
+    
+    <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-10 leading-relaxed max-w-3xl px-4 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+      Sua jornada para se tornar um dev de destaque começa aqui. 
+      <br className="hidden sm:block" /> 
+      Venha para nosso Club, completo de cursos, projetos práticos e uma comunidade ativa.
+    </p>
+    
+    {/* <div className="animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+      <button
+        onClick={() => { const form = document.getElementById('subscribe-form'); if (form) form.scrollIntoView({ behavior: 'smooth' }); }}
+        className="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+      >
+        Entrar na Lista de Espera
+      </button>
+    </div> */}
+  </div>
+
+  <div className="w-full pb-10 sm:pb-12 animate-fade-in-up" style={{ animationDelay: '0.9s' }}>
+    <div className="flex flex-wrap space-x-38 justify-center pt-20 items-center gap-x- sm:gap-x-12">
+      
+      <Gologo/>
+      <CsharpLogo  />
+      <NestLogo/>
+      <PsqlLogo />
+
+    </div>
+  </div>
+
       </main>
-
       <section id="courses" className="w-full bg-gray-900/30 backdrop-blur-sm py-16 md:py-24 px-4 z-10">
         <div className="container mx-auto max-w-6xl animate-fade-in-up">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-6">O Que Você Vai Dominar?</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-6">Aqui no Club você vai dominar</h2>
           <p className="text-lg md:text-xl text-gray-400 text-center mb-12 md:mb-16 max-w-3xl mx-auto">
-            De linguagens fundamentais a ferramentas avançadas e desenvolvimento de carreira, nosso ecossistema é pensado para o seu sucesso.
+            De linguagens fundamentais a ferramentas avançadas e desenvolvimento de carreira, nosso clube é pensado para o seu aprendizado e sua confiança do que esta fazendo.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {courseCategories.map((category, index) => (
@@ -194,19 +235,19 @@ function App() {
         <div className="container mx-auto max-w-4xl text-center animate-fade-in-up">
           <div className="mb-6 flex justify-center">
 
-            <MessageSquare size={60} className="text-indigo-400" /> 
+            <MessageSquare size={60} className="text-emerald-400" /> 
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-6">Faça Parte da Nossa <span className="text-indigo-400">Comunidade Vibrante!</span></h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-6">Faça Parte da Nossa <span className="text-emerald-400">Comunidade!</span></h2>
           <p className="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed max-w-2xl mx-auto">
-            Conecte-se com instrutores e outros alunos, tire dúvidas em tempo real, participe de desafios, encontre parceiros para projetos e acelere seu aprendizado em nosso servidor exclusivo no Discord.
+            Conecte-se com instrutores e outros alunos, tire dúvidas em tempo real, participe de desafios, encontre parceiros para projetos e acelere seu aprendizado.
           </p>
           <a 
-            href="https://discord.gg/dJnD6vtezN"
+            href="https://chat.whatsapp.com/JuJhGdQvp0JLBFKq9OoBlU"
             target="_blank" 
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-4 px-10 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-xl"
+            className="inline-flex items-center gap-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-4 px-10 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-xl"
           >
-            <Bot size={24} /> Entrar no Discord
+            <MessageSquare size={24} /> Entrar no grupo do WhatsApp
           </a>
         </div>
       </section>
@@ -227,7 +268,9 @@ function App() {
         </div>
       </section>
 
-      <section id="subscribe-form" className="w-full py-16 md:py-24 px-4 z-10">
+      < PricingSection />
+
+      {/* <section id="subscribe-form" className="w-full py-16 md:py-24 px-4 z-10">
         <div className="container mx-auto max-w-lg text-center animate-fade-in-up">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Quase lá!</h2>
             <p className="text-lg text-gray-300 mb-8">Seja o primeiro a saber quando lançarmos. Inscreva-se para receber atualizações exclusivas e acesso antecipado.</p>
@@ -270,7 +313,9 @@ function App() {
               )}
             </div>
         </div>
-      </section>
+      </section> */}
+
+
 
       <footer className="w-full text-center py-8 px-4 text-gray-400 font-['Montserrat'] text-sm select-none z-10 bg-gray-950 flex flex-col items-center gap-3">
         <img

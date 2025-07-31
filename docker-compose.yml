@@ -1,32 +1,4 @@
 services:
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: club4devs_backend
-    restart: always
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_HOST: db
-      POSTGRES_DB: ${POSTGRES_DB}
-      PORT: 3001
-    depends_on:
-      - db
-    networks:
-      - app-network
-  db:
-    image: postgres:15-alpine
-    container_name: club4devs_db
-    restart: always
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - app-network
   nginx:
     container_name: club4devs_nginx
     build:
@@ -58,18 +30,6 @@ services:
     environment:
       - DOMAIN=${DOMAIN}
       - WWW_DOMAIN=${WWW_DOMAIN}
-  chatwoot-redis:
-    image: redis:7.0-alpine
-    container_name: chatwoot_redis
-    restart: always
-    volumes:
-      - chatwoot_redis_data:/data
-    # Se você definiu REDIS_PASSWORD em .env.chatwoot, adicione o comando:
-    # command: redis-server --requirepass SUA_SENHA_DO_REDIS
-    networks:
-      - app-network
-
-  chatwoot-web: # Anteriormente 'rails' no exemplo do Chatwoot
     image: chatwoot/chatwoot:latest # Ou uma tag específica, ex: v3.5.0
     container_name: chatwoot_web
     restart: always
@@ -92,34 +52,9 @@ services:
     networks:
       - app-network
 
-  chatwoot-worker: # Anteriormente 'sidekiq' no exemplo do Chatwoot
-    image: chatwoot/chatwoot:latest # Use a MESMA tag que o chatwoot-web
-    container_name: chatwoot_worker
-    restart: always
-    environment:
-      POSTGRES_HOST: db
-      POSTGRES_DATABASE: chatwoot_production # Nome sugerido para o banco de dados do Chatwoot
-      POSTGRES_USER: chatwoot_user # Nome sugerido para o usuário do Chatwoot
-      POSTGRES_PASSWORD: SenhaTemporaria2025 # Defina uma senha forte
-      RAILS_ENV: production
-      REDIS_URL: redis://chatwoot-redis:6379/0
-      FRONTEND_URL: https://chat.club4devs.com.br
-      SECRET_KEY_BASE: zTfqF5bkCbM26tf9v9ycIPWVIA1QrWUQiXMT7op8j9XnuRtiuTpZlT7DBqakJWAD
-    depends_on:
-      - db
-      - chatwoot-redis
-    command: bundle exec sidekiq -C config/sidekiq.yml
-    volumes:
-      - chatwoot_data:/app/storage # Compartilha o mesmo volume se ACTIVE_STORAGE_SERVICE=local
-    networks:
-      - app-network
-
 volumes:
-  postgres_data:
   certbot_conf:
   certbot_www:
-  chatwoot_redis_data:
-  chatwoot_data:
 
 networks:
   app-network:

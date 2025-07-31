@@ -1,1 +1,0 @@
-export const PG_CONNECTION_POOL = 'PG_CONNECTION_POOL';
