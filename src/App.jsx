@@ -201,7 +201,7 @@ function App() {
     </div> */}
   </div>
 
-  <div className="w-full pb-10 sm:pb-12 animate-fade-in-up" style={{ animationDelay: '0.9s' }}>
+  <div className="hidden sm:block w-full pb-10 sm:pb-12 animate-fade-in-up" style={{ animationDelay: '0.9s' }}>
     <div className="flex flex-wrap space-x-38 justify-center pt-20 items-center gap-x- sm:gap-x-12">
       
       <Gologo/>
