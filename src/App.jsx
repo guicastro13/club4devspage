@@ -1,9 +1,9 @@
 import './index.css';
 import { useEffect, useState } from 'react';
-import { Mail, Code, AlertTriangle, CheckCircle2, Menu, X, Bot, Users2, Zap, Network, ShieldCheck, TerminalSquare, Rocket, MessageSquare } from 'lucide-react';
+import {  Code, Menu, X, Users2, Zap, Network, ShieldCheck, TerminalSquare, Rocket, MessageSquare } from 'lucide-react';
 import Gologo from './components/techs/Go';
 import CsharpLogo from './components/techs/Csharp';
-import PsqlLogo from './components/techs/PSql';
+import PsqlLogo from './components/techs/Psql';
 import NestLogo from './components/techs/Nest';
 import PricingSection from './components/ItensVenda/itens';
 
